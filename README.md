@@ -1,4 +1,4 @@
-p3 - A simple game engine for the "Project 3"
+# p3 - A simple game engine for the "Project 3"
 
 Author:
 
@@ -6,14 +6,14 @@ Tom Yeh\
 Associate Professor\
 Department of Computer Science
 
-# Quick Start
+## Quick Start
 Compile and run examples:
 ```bash
 $ g++ engine.cpp examples.cpp
 $ ./a.out
 ```
 
-# Hello World
+## Hello World
 ```c++
 class HelloWorld : public Engine
 {
