@@ -262,6 +262,8 @@ void Engine::play()
             // reset translation
             _xo = 0;
             _yo = 0;
+            _strokeSymbol = BLOCK;       
+            _isFill = false;     
             draw();
             render();
             if (_description.size())

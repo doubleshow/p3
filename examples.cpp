@@ -653,6 +653,29 @@ class MenuExample : public Engine
 
 };
 
+class PointExampleReadme : public Engine
+{
+    int x = 0;    
+    void setup()
+    {
+        createCanvas(10,10);
+    }
+
+    void draw()
+    {
+        clear();
+        point(x, 0);        
+        if (x == 10)
+        {
+            x = 0;
+        }
+        else
+        {
+            x++;
+        }
+    }
+};
+
 int main()
 {
     MenuExample game;        
@@ -682,7 +705,9 @@ int main()
     game.add(new BackgroundExample(), "BackgroundExample");
     game.add(new TranslateExample1(), "TranslateExample1");
     game.add(new TranslateExample2(), "TranslateExample2");
-    game.play();
+    // game.play();
+
+    PointExampleReadme().play();
 
     return 0;
 }
