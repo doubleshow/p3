@@ -616,6 +616,73 @@ class TranslateExample2 : public Engine
     }
 };
 
+
+class RecursionExample1 : public Engine
+{
+    void setup()
+    {
+        createCanvas(50, 20);
+    }
+
+    void branch(int x, int y, int size)
+    {     
+        if (size > 2)
+        {            
+            int x1 = x - size * 0.4;
+            int x2 = x + size * 0.4;
+            horizontal_line(y, x1, x2);
+            vertical_line(x1, y+1, y+3);            
+            vertical_line(x2, y+1, y+3);            
+
+            branch(x1, y+4, size/2);
+            branch(x2, y+4, size/2);
+        }        
+    }
+
+    void draw()
+    {        
+        branch(25, 0, 30);
+    }
+
+};
+
+class RecursionExample2 : public Engine
+{
+    void setup()
+    {
+        createCanvas(50, 33);
+    }
+
+    void branch(int x, int y, int size, int levels)
+    {     
+        if (levels <4)
+        {            
+            rect(x, y, size, size);
+            
+            int x1 = x + 1;
+            int x2 = x + size/2;
+            int y1 = y + 1;
+            int y2 = y + size/2;
+            int s = size/2-1;
+            stroke("🌻");
+            branch(x1, y1, s, levels+1);
+            stroke("🌲");
+            branch(x2, y1, s, levels+1);
+            stroke("🌹");
+            branch(x1, y2, s, levels+1);
+            stroke("🌴");
+            branch(x2, y2, s, levels+1);            
+        }        
+    }
+
+    void draw()
+    {        
+        stroke("🏠");
+        branch(0, 0, 32, 0);
+    }
+
+};
+
 class MenuExample : public Engine
 {
     vector<Engine*> games;
@@ -653,28 +720,28 @@ class MenuExample : public Engine
 
 };
 
-class PointExampleReadme : public Engine
-{
-    int x = 0;    
-    void setup()
-    {
-        createCanvas(10,10);
-    }
+// class PointExampleReadme : public Engine
+// {
+//     int x = 0;    
+//     void setup()
+//     {
+//         createCanvas(10,10);
+//     }
 
-    void draw()
-    {
-        clear();
-        point(x, 0);        
-        if (x == 10)
-        {
-            x = 0;
-        }
-        else
-        {
-            x++;
-        }
-    }
-};
+//     void draw()
+//     {
+//         clear();
+//         point(x, 0);        
+//         if (x == 10)
+//         {
+//             x = 0;
+//         }
+//         else
+//         {
+//             x++;
+//         }
+//     }
+// };
 
 int main()
 {
@@ -705,9 +772,7 @@ int main()
     game.add(new BackgroundExample(), "BackgroundExample");
     game.add(new TranslateExample1(), "TranslateExample1");
     game.add(new TranslateExample2(), "TranslateExample2");
-    // game.play();
-
-    PointExampleReadme().play();
+    game.play();
 
     return 0;
 }

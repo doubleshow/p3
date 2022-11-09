@@ -1,4 +1,4 @@
-#define ENGINE_VERSION "1.0"
+#define ENGINE_VERSION "1.1"
 #define AUTHOR Tom Yeh <tom.yeh@colorado.edu>
 
 #include <iostream>     // cout, cin, streambuf, hex, endl, sgetc, sbumpc
@@ -37,6 +37,13 @@ class Canvas
         void render();
 
 
+
+    bool _isLooping = true;
+    void noLoop()
+    {
+        _isLooping = false;
+    }
+
     bool _isFill = false;
     string _fillSymbol = BLOCK;
 
@@ -64,10 +71,10 @@ class Canvas
 
     void rect(int x, int y, int width, int height)
     {
-            horizontal_line(y, x, x + width);       
-            horizontal_line(y+height-1, x, x + width);      
-            vertical_line(x, y, y + height);      
-            vertical_line(x+width-1, y, y + height);     
+            horizontal_line(y, x, x + width - 1);       
+            horizontal_line(y+height-1, x, x + width - 1);      
+            vertical_line(x, y, y + height - 1);      
+            vertical_line(x+width-1, y, y + height - 1);     
         if (_isFill)
         {     
             string saved = _strokeSymbol;  
@@ -98,7 +105,8 @@ class Canvas
 
         static const int MAX_WIDTH = 100;
         static const int MAX_HEIGHT = 50;
-        wchar_t buffer[MAX_HEIGHT][MAX_WIDTH][8];
+        // wchar_t buffer[MAX_HEIGHT][MAX_WIDTH][8];
+        string buffer[MAX_HEIGHT][MAX_WIDTH];
 
         int _width;
         int _height;
@@ -113,6 +121,8 @@ class Canvas
     {
         return _height;
     }
+
+     
 
 };
 
@@ -138,12 +148,17 @@ class Engine :  public Canvas
     virtual void keyPressed(int keyCode) {};
     virtual void setup() {};
 
-
-    
+    void redraw()
+    {
+        draw();
+        render();
+    }
 
     public:
     
     void play();
+
+    void sleep(int milliseconds);   
 
 
 };
@@ -156,3 +171,41 @@ int random(int n);
 int random(int a, int b);
 
 string random(vector<string> choices);
+
+
+class Menu : public Engine
+{
+    vector<Engine*> games;
+    vector<string> game_names;
+
+    public:
+
+    void add(Engine* game, string name)
+    {
+        games.push_back(game);
+        game_names.push_back(name);
+    }
+
+    void setup()
+    {
+        for (int i = 0 ; i < games.size() ; i++)
+        {
+            cout << (i+1) << ". " << game_names[i] << endl;
+        }
+
+        string c;
+        cout << "Choose a game:";
+        cin >> c;
+        int i = stoi(c);
+        if (i >= 1 && i <= games.size())
+        {
+            games.at(i-1)->play();
+        }
+        else
+        {
+            cout << "Not a valid choice." << endl;
+        }
+        quit();
+    }
+
+};

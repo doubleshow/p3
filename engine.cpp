@@ -100,20 +100,21 @@ void Canvas:: clear()
     {
         for (int j = 0; j < _width; j++)
         {
-            buffer[i][j][0] = 0;
-            buffer[i][j][1] = 0;
-            buffer[i][j][2] = 0;
-            buffer[i][j][3] = 0;
+            // buffer[i][j][0] = 0;
+            // buffer[i][j][1] = 0;
+            // buffer[i][j][2] = 0;
+            // buffer[i][j][3] = 0;
+            buffer[i][j] = "";
         }                
     }
 }
 
 void Canvas::point(int x, int y)
 {
-    if (x >= 0 && x <  _width && y < _height && y >= 0)
-    {                            
+    // if (x >= 0 && x <  _width && y < _height && y >= 0)
+    // {                            
         point(x, y, _strokeSymbol);
-    }
+    // }
 }
 
 void Canvas::point(int x_, int y_, string symbol)
@@ -123,10 +124,11 @@ void Canvas::point(int x_, int y_, string symbol)
 
     if (x >= 0 && x <  _width && y < _height && y >= 0)
     {
-        for (int i = 0; i < symbol.size(); i++)
-        {
-            buffer[y][x][i] = symbol[i];
-        }             
+        // for (int i = 0; i < symbol.size(); i++)
+        // {
+        //     buffer[y][x][i] = symbol[i];
+        // }             
+        buffer[y][x] = symbol;
     }
 }
 
@@ -139,46 +141,55 @@ void Canvas:: text(string word, int x_, int y_)
     for (int i = 0; i < word.size(); i = i + 2)
     {
         j = x + (i / 2);
-        buffer[y][j][0] = word[i];
-        buffer[y][j][1] = word[i+1];   
-        buffer[y][j][2] = 0;
+        if (y >= 0 && j >= 0 && y < MAX_HEIGHT && j < MAX_WIDTH)
+        {
+            buffer[y][j] = word.substr(i, 2);
+        }
+        // buffer[y][j][0] = word[i];
+        // buffer[y][j][1] = word[i+1];   
+        // buffer[y][j][2] = 0;
     }
     if (word.size() % 2 == 0)
     {
-        buffer[y][j][2] = 0;
+        // buffer[y][j][2] = 0;
     }
     else 
     {
-        buffer[y][j][0] = word[word.size()-1];
-        buffer[y][j][1] = ' ';
-        buffer[y][j][2] = 0;
+        if (y >= 0 && j >= 0 && y < MAX_HEIGHT && j < MAX_WIDTH)
+        {
+            buffer[y][j] = word.substr(word.size()-1,1) + " ";
+        }
+        // buffer[y][j][0] = word[word.size()-1];
+        // buffer[y][j][1] = ' ';
+        // buffer[y][j][2] = 0;
     }
 }
 
 void Canvas:: vertical_line(int x, int y1, int y2)
 {
-    if (x < _width && x >= 0)
-    {
-        for (int y = y1; y < y2; y++)
+    // if (x < _width && x >= 0)
+    // {
+        for (int y = y1; y <= y2; y++)
         {
             point(x, y);
         }
-    }
+    // }
 }
 
 void  Canvas::horizontal_line(int y, int x1, int x2)
 {
-    if (y < _width && y >= 0)
-    {
-        for (int x = x1; x < x2; x++)
+    // if (y < _width && y >= 0)
+    // {
+        for (int x = x1; x <= x2; x++)
         {
             point(x, y);
         }
-    }
+    // }
 }        
 
 void Canvas::render()
 {
+    cout << "\033[2J\033[1;1H";
     cout << "p3 Engine " << ENGINE_VERSION << endl ;
     cout << "   ";    
     for (int i = 0; i < _width; i++)
@@ -198,9 +209,9 @@ void Canvas::render()
         cout << setw(2) << i << "│";
         for (int j = 0; j < _width; j++)
         {                    
-            if (buffer[i][j][0])
+            if (buffer[i][j].size() > 0)
             {
-                wcout << buffer[i][j];
+                cout << buffer[i][j];
             } 
             else
             {
@@ -233,6 +244,11 @@ void Engine::pause()
 void Engine::play()
 {
     setup();
+    if (!_isLooping)
+    {
+        return;
+    }
+
     int keyCode{ 0 };
     while (!_quit)
     {        
@@ -251,7 +267,7 @@ void Engine::play()
         else 
         {
 
-            cout << "\033[2J\033[1;1H";
+            
         
             if (stdinHasData()) 
             {            
@@ -279,6 +295,10 @@ void Engine::play()
     }
 }
 
+void Engine::sleep(int milliseconds)
+{
+     this_thread::sleep_for(chrono::milliseconds(100));
+}
 
 
 //  returns a random number from 0 up to (but not including) the number.
