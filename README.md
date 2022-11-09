@@ -6,6 +6,11 @@ Tom Yeh\
 Associate Professor\
 Department of Computer Science
 
+## Supported Environments
+VSCode on coding.csel.io
+
+(other platforms have not been tested yet)
+
 ## Quick Start
 Compile and run examples:
 ```bash
@@ -117,7 +122,6 @@ int main()
 ```
 
 ![animation-example.gif](animation-example.gif)
-
 
 ## Keyboard
 
