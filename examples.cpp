@@ -220,13 +220,13 @@ class LineExample : public Engine
 
     void draw()
     {
-        vertical_line(1, 2, 5);
-        vertical_line(3, 2, 5);
-        vertical_line(5, 2, 5);
+        vertical_line(1, 2, 9);
+        vertical_line(3, 2, 9);
+        vertical_line(5, 2, 9);
 
-        horizontal_line(3, 0, 5);
-        horizontal_line(5, 0, 5);
-        horizontal_line(7, 0, 5);
+        horizontal_line(3, 0, 7);
+        horizontal_line(5, 0, 7);
+        horizontal_line(7, 0, 7);
 
         describe("Three vertical lines and three horizontal lines.");
     }
@@ -294,7 +294,7 @@ class RectExample3 : public Engine
     }
 };
 
-class MoveExample1 : public Engine
+class AnimationExample1 : public Engine
 {
     int x;
 
@@ -314,7 +314,7 @@ class MoveExample1 : public Engine
     }
 };
 
-class MoveExample2 : public Engine
+class AnimationExample2 : public Engine
 {
     int x1;
     int x2;
@@ -335,6 +335,65 @@ class MoveExample2 : public Engine
         x2 += 2;
 
         describe("Two points move horizontally at different speeds.");
+    }
+};
+
+class AnimationExample3 : public Engine
+{
+    int x;
+    
+    void setup()
+    {
+        x = 0;    
+        createCanvas(10, 10);        
+    }
+
+    void draw()
+    {
+        clear();
+        point(x, 0);
+        if (x == 10)
+        {
+            x = 0;
+        }
+        else
+        {
+            x++;
+        }        
+    }
+};
+
+
+class AnimationExample4 : public Engine
+{
+    int s;
+    int ds;
+    
+    void setup()
+    {
+        s = 0;    
+        ds = 1;
+        createCanvas(10, 10);        
+    }
+
+    void draw()
+    {
+        clear();
+        rect(0,0,s,s);
+        // if the size reaches the max
+        if (s == 10)
+        {
+            // decrease
+            ds = -1;
+        }
+        // else if the size reaches the min
+        else if (s == 0)
+        {
+            // increase
+            ds = 1;
+        }
+        // update the rectangle's size
+        s = s + ds;
     }
 };
 
@@ -421,6 +480,7 @@ class StrokeExample : public Engine
         horizontal_line(5, 2, 8);
 
         stroke("🌲");
+        point(1, 2); 
         horizontal_line(6, 2, 8);
     }
 };
@@ -720,29 +780,6 @@ class MenuExample : public Engine
 
 };
 
-// class PointExampleReadme : public Engine
-// {
-//     int x = 0;    
-//     void setup()
-//     {
-//         createCanvas(10,10);
-//     }
-
-//     void draw()
-//     {
-//         clear();
-//         point(x, 0);        
-//         if (x == 10)
-//         {
-//             x = 0;
-//         }
-//         else
-//         {
-//             x++;
-//         }
-//     }
-// };
-
 int main()
 {
     MenuExample game;        
@@ -760,8 +797,12 @@ int main()
     game.add(new RectExample1(), "RectExample1");
     game.add(new RectExample2(), "RectExample2");
     game.add(new RectExample3(), "RectExample3");    
-    game.add(new MoveExample1(), "MoveExample1");
-    game.add(new MoveExample2(), "MoveExample2");        
+      
+    game.add(new AnimationExample1(), "AnimationExample1");
+    game.add(new AnimationExample2(), "AnimationExample2");
+    game.add(new AnimationExample3(), "AnimationExample3");
+    game.add(new AnimationExample4(), "AnimationExample4");
+
     game.add(new KeyPressedExample1(), "KeyPressedExample1");
     game.add(new KeyPressedExample2(), "KeyPressedExample2");
     game.add(new StrokeExample(), "StrokeExample");

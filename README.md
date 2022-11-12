@@ -7,7 +7,7 @@ Associate Professor\
 Department of Computer Science
 
 ## Supported Environments
-VSCode on coding.csel.io
+VSCode on [coding.csel.io](https://coding.csel.io/)
 
 (other platforms have not been tested yet)
 
@@ -55,7 +55,7 @@ p3 Engine 1.0
 
 ## Point
 ```c++
-class PointExampleReadme : public Engine
+class PointExample : public Engine
 {
     void setup()
     {
@@ -88,10 +88,117 @@ class PointExampleReadme : public Engine
   └────────────────────┘
 ```
 
-## Animation
+## Line
+```c++
+class LineExample : public Engine
+{
+    void setup()
+    {
+        createCanvas(10,10);
+    }
+
+    void draw()
+    {
+        vertical_line(1, 2, 9);
+        vertical_line(3, 2, 9);
+        vertical_line(5, 2, 9);
+
+        horizontal_line(3, 0, 7);
+        horizontal_line(5, 0, 7);
+        horizontal_line(7, 0, 7);
+
+        describe("Three vertical lines and three horizontal lines.");
+    }
+};
+```
+
+```bash
+    0 1 2 3 4 5 6 7 8 9
+  ┌────────────────────┐
+ 0│                    │
+ 1│                    │
+ 2│  ██  ██  ██        │
+ 3│████████████████    │
+ 4│  ██  ██  ██        │
+ 5│████████████████    │
+ 6│  ██  ██  ██        │
+ 7│████████████████    │
+ 8│  ██  ██  ██        │
+ 9│  ██  ██  ██        │
+  └────────────────────┘
+  ```
+
+## Rect
+```c++
+class RectExample : public Engine
+{
+    void setup()
+    {
+        createCanvas(20,10);
+    }
+
+    void draw()
+    {
+        rect(0, 0, 4, 4);
+
+        rect(7, 3, 4, 4);
+        
+        rect(15, 2, 5, 5);
+
+        describe("Three rectangules.");
+    }
+};
+
+```
+
+```
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9
+  ┌────────────────────────────────────────┐
+ 0│████████                                │
+ 1│██    ██                                │
+ 2│██    ██                      ██████████│
+ 3│████████      ████████        ██      ██│
+ 4│              ██    ██        ██      ██│
+ 5│              ██    ██        ██      ██│
+ 6│              ████████        ██████████│
+ 7│                                        │
+ 8│                                        │
+ 9│                                        │
+  └────────────────────────────────────────┘
+SCREEN READER: Three rectangules.
+```
+## Stroke
+```c++
+class StrokeExample : public Engine
+{
+    void setup()
+    {
+        createCanvas(10, 10);
+    }
+
+    void draw()
+    {
+        clear();
+
+        stroke("->");
+        point(1, 1);         
+        horizontal_line(5, 2, 8);
+
+        stroke("🌲");
+        point(1, 2); 
+        horizontal_line(6, 2, 8);
+    }
+};
+```
+
+![stroke example](images/stroke-example.png)
+
+# Animation Examples
+
+## Example: Changing Location
 
 ```c++
-class Game : public Engine
+class PointAnimation : public Engine
 {
     int x = 0;    
     void setup()
@@ -111,21 +218,61 @@ class Game : public Engine
         {
             x++;
         }
+
+        describe("A point moving horizontally across the canvas.")
     }
 };
-
-int main()
-{
-    Game game;
-    game.play();
-}
 ```
 
-![animation-example.gif](animation-example.gif)
+![move example](images/move-example.gif)
+
+
+## Example: Changing Size
+
+```c++
+class RectAnimation : public Engine
+{
+    int s;
+    int ds;
+    
+    void setup()
+    {
+        s = 0;    
+        ds = 1;
+        createCanvas(10, 10);        
+    }
+
+    void draw()
+    {
+        clear();
+        rect(0,0,s,s);
+        // if the size reaches the max
+        if (s == 10)
+        {
+            // decrease
+            ds = -1;
+        }
+        // else if the size reaches the min
+        else if (s == 0)
+        {
+            // increase
+            ds = 1;
+        }
+        // update the rectangle's size
+        s = s + ds;
+
+        describe("A box is expanding and then shrinking in size.");
+    }
+};
+```
+
+![box exmaple](images/animation-box.gif)
+
+# User Input
 
 ## Keyboard
 
-This game allows a user to move a point around the canvas by pressing keys.
+This example allows a user to move a point around the canvas by pressing keys.
 
 ```c++
 class KeyPressedExample : public Engine
@@ -180,7 +327,20 @@ $ g++ engine.cpp maze-game.cpp
 $ ./a.out
 ```
 
-![maze game](maze-game.png)
+![maze game](images/maze-game.png)
+
+## Chore Game
+
+Source code: [chore-game.cpp](chore-game.cpp)
+
+![chore game](images/chore-game.gif)
+
+## Dog Game
+
+Source code: [dog-game.cpp](dog-game.cpp)
+
+![dog game](images/dog-game.gif)
+
 
 ## Recursive Tree
 ```c++
@@ -216,7 +376,7 @@ class RecursiveTrees : public Engine
 };
 ```
 
-![recursive tree](recursive-tree.png)
+![recursive tree](images/recursive-tree.png)
 
 ## Fibonacci
 ```c++

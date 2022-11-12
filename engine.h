@@ -81,7 +81,7 @@ class Canvas
             for (int i = 1; i < height -1; i++)
             {
                 stroke(_fillSymbol);
-                horizontal_line(y+i, x+1, x+1+width-2);
+                horizontal_line(y+i, x+1, x+width-2);
             }
             stroke(saved);
         }
