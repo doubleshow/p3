@@ -4,9 +4,8 @@ class RecursiveNumbers : public Engine
 {
     void setup()
     {
-        createCanvas(60,10);         
-        redraw();
-        noLoop();
+        createCanvas(60,10);    
+        branch(128, 30, 0);
     }
 
     void branch(int n, int x, int y)
@@ -14,20 +13,10 @@ class RecursiveNumbers : public Engine
         if (n > 2)
         {            
             text(to_string(n), x, y);
-
-            // text(to_string(n/2), x + n/8, y + 1);
-            // text(to_string(n/2), x - n/8, y + 1);
-
             branch(n/2, x + n/8, y + 1);
             branch(n/2, x - n/8, y + 1);
         }        
     }
-
-    void draw()
-    {                
-        branch(128, 30, 0);
-    }
-
 };
 
 class RecursiveTrees : public Engine
@@ -35,8 +24,7 @@ class RecursiveTrees : public Engine
     void setup()
     {
         createCanvas(50, 20);
-        redraw();
-        noLoop();
+        branch(25, 0, 30);
     }
 
     void branch(int x, int y, int size)
@@ -47,16 +35,14 @@ class RecursiveTrees : public Engine
             int x2 = x + size * 0.4;
             horizontal_line(y, x1, x2);
             vertical_line(x1, y+1, y+3);            
-            vertical_line(x2, y+1, y+3);            
+            vertical_line(x2, y+1, y+3);     
+
+            redraw();
+            sleep(200);       
 
             branch(x1, y+4, size/2);
             branch(x2, y+4, size/2);
         }        
-    }
-
-    void draw()
-    {        
-        branch(25, 0, 30);
     }
 
 };
@@ -66,8 +52,8 @@ class RecursiveBlocks : public Engine
     void setup()
     {
         createCanvas(50, 33);
-        redraw();
-        noLoop();
+        stroke("🏠");
+        branch(0, 0, 32, 0);
     }
 
     void branch(int x, int y, int size, int levels)
@@ -92,11 +78,11 @@ class RecursiveBlocks : public Engine
         }        
     }
 
-    void draw()
-    {        
-        stroke("🏠");
-        branch(0, 0, 32, 0);
-    }
+    // void draw()
+    // {        
+    //     stroke("🏠");
+    //     branch(0, 0, 32, 0);
+    // }
 
 };
 
@@ -127,7 +113,9 @@ class Fibonacci : public Engine
     {
         if (n == 1 || n == 0)
         {
-            text("f(" + to_string(n) + ")=1", x, y);            
+            text("f(" + to_string(n) + ")=1", x, y);    
+            redraw();
+            sleep(300);
             return n;
         }
         else
@@ -140,7 +128,8 @@ class Fibonacci : public Engine
             int v =  fv(n - 1, x - 4, y + 1) + fv(n - 2, x + 4, y + 1);
             
             text("f(" + to_string(n) + ")=" + to_string(v), x, y);
-            
+            redraw();
+            sleep(300);
             return v;
         }
     }

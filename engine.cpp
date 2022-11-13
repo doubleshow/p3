@@ -272,7 +272,12 @@ void Engine::play()
             if (stdinHasData()) 
             {            
                 keyCode = std::cin.get();
-                keyPressed(keyCode);                
+                cout << endl;
+                keyPressed(keyCode);       
+                if (_pausedUntilSpaceIsPressed)
+                {
+                    continue;
+                }         
             }
             
             // reset translation
@@ -291,13 +296,13 @@ void Engine::play()
 
         }
                 
-        this_thread::sleep_for(chrono::milliseconds(100));
+        sleep(100);
     }
 }
 
 void Engine::sleep(int milliseconds)
 {
-     this_thread::sleep_for(chrono::milliseconds(100));
+     this_thread::sleep_for(chrono::milliseconds(milliseconds));
 }
 
 

@@ -397,6 +397,46 @@ class AnimationExample4 : public Engine
     }
 };
 
+
+class AnimationExample5 : public Engine
+{
+    string message = "This is a really long message to display.";
+
+    // offset in the x direction to implement the scrolling effect
+    int offset = 0;
+
+    void setup()
+    {
+        createCanvas(10, 2);
+    }
+
+    void draw()
+    {
+        // join two copies of the same message so that we can
+        // have the tail of the message followed immeidately by
+        // the head of the same message.
+        string message2 = message + " " + message;
+
+        // extract a substring that can fit inside the canvas        
+        // because each x,y can display 2 characters, the 
+        // toal number of characters we can fit is
+        // 2 x getWidth();
+        string fit = message2.substr(offset, 2 * getWidth());
+        
+        clear();
+        text(fit, 0, 0);
+        offset++;
+
+        // wrap around if offset exceeds the size of the message
+        // which can be achieved by taking the modulo of n where
+        // n is the size of the message
+        int n = message.size();
+        offset = offset % message.size();
+    }
+
+};
+
+
 class KeyPressedExample1 : public Engine
 {
     int x;    
@@ -743,46 +783,75 @@ class RecursionExample2 : public Engine
 
 };
 
-class MenuExample : public Engine
+class MenuExample1 : public Engine
 {
-    vector<Engine*> games;
-    vector<string> game_names;
-
-    public:
-
-    void add(Engine* game, string name)
-    {
-        games.push_back(game);
-        game_names.push_back(name);
-    }
+    bool isMenuOpen = false;
 
     void setup()
     {
-        for (int i = 0 ; i < games.size() ; i++)
-        {
-            cout << (i+1) << ". " << game_names[i] << endl;
-        }
+        createCanvas(10,1);
+    }
 
-        string c;
-        cout << "Choose a game:";
-        cin >> c;
-        int i = stoi(c);
-        if (i >= 1 && i <= games.size())
+    void keyPressed(int keyCode)
+    {
+        switch (keyCode)
         {
-            games.at(i-1)->play();
+            case 'x':
+            case 'X':
+                isMenuOpen = true;
+                break;
+        }
+    }
+
+    void console()
+    {
+        if (!isMenuOpen)
+        {
+            cout << "Press [X] to open the menu" << endl;
         }
         else
         {
-            cout << "Not a valid choice." << endl;
+            cout << "MENU" << endl;
+            cout << "1. Open" << endl;
+            cout << "2. Save" << endl;
+            cout << "3. Quit" << endl;
+            cout << "Choose one:";
+            string choice;
+            cin >> choice;
+            if (choice == "1")
+            {
+                cout << "Opening the file" << endl;
+                pause();
+            }
+            else if (choice == "2")
+            {
+                cout << "Saving the file" << endl;
+                pause();
+            }
+            else if (choice == "3")
+            {
+                cout << "Quitting" << endl;
+                cout << "Bye!" << endl;
+                quit();
+            }
+            else
+            {
+                cout << "The option is invalid" << endl;
+                pause();
+            }
+            isMenuOpen = false;
         }
-        quit();
     }
 
 };
 
+
+
+
+
 int main()
 {
-    MenuExample game;        
+    Menu game;        
     
     // Games
     game.add(new PaintGame(), "PaintGame");
@@ -802,6 +871,7 @@ int main()
     game.add(new AnimationExample2(), "AnimationExample2");
     game.add(new AnimationExample3(), "AnimationExample3");
     game.add(new AnimationExample4(), "AnimationExample4");
+    game.add(new AnimationExample5(), "AnimationExample5");
 
     game.add(new KeyPressedExample1(), "KeyPressedExample1");
     game.add(new KeyPressedExample2(), "KeyPressedExample2");
@@ -813,6 +883,9 @@ int main()
     game.add(new BackgroundExample(), "BackgroundExample");
     game.add(new TranslateExample1(), "TranslateExample1");
     game.add(new TranslateExample2(), "TranslateExample2");
+
+    game.add(new MenuExample1(), "MenuExample1");
+
     game.play();
 
     return 0;

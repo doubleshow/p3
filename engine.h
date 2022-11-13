@@ -1,4 +1,4 @@
-#define ENGINE_VERSION "1.1"
+#define ENGINE_VERSION "1.2"
 #define AUTHOR Tom Yeh <tom.yeh@colorado.edu>
 
 #include <iostream>     // cout, cin, streambuf, hex, endl, sgetc, sbumpc
@@ -104,8 +104,7 @@ class Canvas
     private:
 
         static const int MAX_WIDTH = 100;
-        static const int MAX_HEIGHT = 50;
-        // wchar_t buffer[MAX_HEIGHT][MAX_WIDTH][8];
+        static const int MAX_HEIGHT = 50; 
         string buffer[MAX_HEIGHT][MAX_WIDTH];
 
         int _width;
