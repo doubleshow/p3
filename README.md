@@ -582,13 +582,17 @@ $ ./a.out
 ## Run Game
 In this game, the player is running on a course  with obstacles and treasures. This game demonstrates how to generate a random game map filled with obstacles and treasures, and how to use `translate` to achieve the effect of scrolling the map vertically.
 
+![run game](images/run-game.gif)
+
+Souce code: [run-game.cpp](run-game.cpp)
+
 Compile and run
 ```
 $ g++ engine.cpp run-game.cpp
 $ ./a.out
 ```
 
-![run game](images/run-game.gif)
+
 
 # Advanced Examples
 
