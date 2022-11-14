@@ -85,7 +85,7 @@ class  MazeGame : public Engine
         }   
 
         // check if this move is not within the bound and also not a wall 
-        if (x1 < MAZE_WIDTH && y1 < MAZE_HEIGHT && x1 > 0 && y1 >= 0 && maze_data[y1][x1] != 'w')
+        if (x1 < MAZE_WIDTH && y1 < MAZE_HEIGHT && x1 >= 0 && y1 >= 0 && maze_data[y1][x1] != 'w')
         {
             player_x = x1;
             player_y = y1;

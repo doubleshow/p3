@@ -436,6 +436,39 @@ class AnimationExample5 : public Engine
 
 };
 
+class AnimationExample6 : public Engine
+{
+    // 2d array to keep track of whether a location is filled
+    // 0: unfilled, 1: filled
+    int filled[8][8] = {0};
+    void setup()
+    {
+        createCanvas(8, 8);        
+    }
+
+    void draw()
+    {
+        int x;
+        int y;
+
+        // randomly draw a location (x,y) that has not
+        // already been filled
+        do
+        {
+            x = random(8);
+            y = random(8);
+        } while (filled[y][x] == 1);
+        
+        // draw a point at an unfilled location
+        point(x,y);
+
+        // mark the location as filled
+        filled[y][x] = 1;
+        
+        describe("The screen is gradually filled up.");
+    }
+};
+
 
 class KeyPressedExample1 : public Engine
 {
@@ -872,6 +905,7 @@ int main()
     game.add(new AnimationExample3(), "AnimationExample3");
     game.add(new AnimationExample4(), "AnimationExample4");
     game.add(new AnimationExample5(), "AnimationExample5");
+    game.add(new AnimationExample6(), "AnimationExample6");
 
     game.add(new KeyPressedExample1(), "KeyPressedExample1");
     game.add(new KeyPressedExample2(), "KeyPressedExample2");

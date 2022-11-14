@@ -349,6 +349,47 @@ class ScrollingTextExample : public Engine
 
 };
 ```
+
+## Example: Random Fill
+
+![random fill](images/random-fill.gif)
+
+```c++
+class RandomFill : public Engine
+{
+    // 2d array to keep track of whether a location is filled
+    // 0: unfilled, 1: filled
+    int filled[8][8] = {0};
+    void setup()
+    {
+        createCanvas(8, 8);        
+    }
+
+    void draw()
+    {
+        int x;
+        int y;
+
+        // randomly draw a location (x,y) that has not
+        // already been filled
+        do
+        {
+            x = random(8);
+            y = random(8);
+        } while (filled[y][x] == 1);
+        
+        // draw a point at an unfilled location
+        point(x,y);
+
+        // mark the location as filled
+        filled[y][x] = 1;
+        
+        describe("The screen is gradually filled up.");
+    }
+};
+```
+
+
 # User Input
 
 ## Keyboard
@@ -523,6 +564,31 @@ Compile and run
 $ g++ engine.cpp maze-game.cpp
 $ ./a.out
 ```
+
+## Room Game
+In this game, the player explores different rooms to collect treasures and avoid monsters. This game demonstrates how to scroll a map that's larger than the screen, while centering on the player. It also demonstrates how to load a game map and draw individual tiles.
+
+
+![room game](images/room-game.gif)
+
+Souce code: [room-game.cpp](room-game.cpp)
+
+Compile and run
+```
+$ g++ engine.cpp room-game.cpp
+$ ./a.out
+```
+
+## Run Game
+In this game, the player is running on a course  with obstacles and treasures. This game demonstrates how to generate a random game map filled with obstacles and treasures, and how to use `translate` to achieve the effect of scrolling the map vertically.
+
+Compile and run
+```
+$ g++ engine.cpp run-game.cpp
+$ ./a.out
+```
+
+![run game](images/run-game.gif)
 
 # Advanced Examples
 
