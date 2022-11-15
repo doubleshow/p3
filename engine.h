@@ -1,4 +1,4 @@
-#define ENGINE_VERSION "1.2"
+#define ENGINE_VERSION "1.3"
 #define AUTHOR Tom Yeh <tom.yeh@colorado.edu>
 
 #include <iostream>     // cout, cin, streambuf, hex, endl, sgetc, sbumpc
@@ -29,6 +29,8 @@ class Canvas
         void point(int x, int y, string symbol);
 
         void text(string word, int x, int y);
+
+        void line(int x1, int y1, int x2, int y2);
         
         void vertical_line(int x, int y1, int y2);
         

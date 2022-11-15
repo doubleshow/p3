@@ -167,31 +167,118 @@ void Canvas:: text(string word, int x_, int y_)
 
 void Canvas:: vertical_line(int x, int y1, int y2)
 {
-    // if (x < _width && x >= 0)
-    // {
-        for (int y = y1; y <= y2; y++)
-        {
-            point(x, y);
-        }
-    // }
+    for (int y = y1; y <= y2; y++)
+    {
+        point(x, y);
+    }
 }
 
 void  Canvas::horizontal_line(int y, int x1, int x2)
 {
-    // if (y < _width && y >= 0)
-    // {
-        for (int x = x1; x <= x2; x++)
-        {
-            point(x, y);
-        }
-    // }
+    for (int x = x1; x <= x2; x++)
+    {
+        point(x, y);
+    }
 }        
+
+// adapated from
+// ref: https://www.geeksforgeeks.org/bresenhams-line-generation-algorithm/
+// fixed off by one bug by modifying how x1 and y1 increment / decrement
+void plotPixel(int x1, int y1, int x2, int y2, int dx,
+               int dy, int decide, Canvas *canvas)
+{
+    // pk is initial decision making parameter
+    // Note:x1&y1,x2&y2, dx&dy values are interchanged
+    // and passed in plotPixel function so
+    // it can handle both cases when m>1 & m<1
+    int pk = 2 * dy - dx;
+    for (int i = 0; i <= dx; i++) {
+        // cout << x1 << "," << y1 << endl;         
+        // 
+        // checking either to decrement or increment the
+        // value if we have to plot from (0,100) to (100,0) 
+
+        if (pk < 0) {
+            
+            // decision value will decide to plot
+            // either  x1 or y1 in x's position
+            if (decide == 0) {
+                // putpixel(x1, y1, RED);
+                // canvas->stroke("11");
+                canvas->point(x1, y1);                
+                pk = pk + 2 * dy;
+            }
+            else {
+                //(y1,x1) is passed in xt
+                // putpixel(y1, x1, YELLOW);
+                // canvas->stroke("22");
+                canvas->point(y1, x1);    
+                pk = pk + 2 * dy;
+            }
+        }
+        else {
+            // y1 < y2 ? y1++ : y1--;
+            if (decide == 0) {
+ 
+                // putpixel(x1, y1, RED);
+                // canvas->stroke("33");
+                canvas->point(x1, y1);    
+            }
+            else {
+                //  putpixel(y1, x1, YELLOW);
+                // canvas->stroke("44");
+                // canvas->stroke(to_string(y1));
+                canvas->point(y1, x1);    
+            }
+            pk = pk + 2 * dy - 2 * dx;
+            // pk = pk - 2 * dx;
+
+            if (y1 < y2)
+            {
+                y1++;
+            }
+            else if (y1 > y2)
+            {
+                y1--;
+            }
+        }
+
+        if (x1 < x2)
+        {
+            x1++;
+        }
+        else if (x1 > x2)
+        {
+            x1--;
+        }        
+
+    }
+}
+
+void  Canvas::line(int x1, int y1, int x2, int y2)
+{
+    int dx = abs(x2 - x1);
+    int dy = abs(y2 - y1);
+ 
+    // If slope is less than one
+    if (dx > dy) {
+ 
+        // passing argument as 0 to plot(x,y)
+        plotPixel(x1, y1, x2, y2, dx, dy, 0, this);
+    }
+    // if slope is greater than or equal to 1
+    else {
+ 
+        // passing argument as 1 to plot (y,x)
+        plotPixel(y1, x1, y2, x2, dy, dx, 1, this);
+    }
+}    
 
 void Canvas::render()
 {
     cout << "\033[2J\033[1;1H";
     cout << "p3 Engine " << ENGINE_VERSION << endl ;
-    cout << "   ";    
+    cout << "  ";    
     for (int i = 0; i < _width; i++)
     {   
         cout << setw(2) << i % 10;

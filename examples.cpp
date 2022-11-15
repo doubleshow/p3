@@ -211,7 +211,7 @@ class PointExample : public Engine
     }
 };
 
-class LineExample : public Engine
+class LineExample1 : public Engine
 {
     void setup()
     {
@@ -231,6 +231,46 @@ class LineExample : public Engine
         describe("Three vertical lines and three horizontal lines.");
     }
 };
+
+class LineExample2 : public Engine
+{
+    void setup()
+    {
+        createCanvas(10,10);
+    }
+
+    void draw()
+    {
+        line(0,0,9,9);
+        line(9,0,0,9);
+    }
+};
+
+class LineExample3 : public Engine
+{
+    void setup()
+    {
+        createCanvas(31,31);
+    }
+
+    void draw()
+    {
+        for (int i = 0 ; i <= 30; i = i + 5)
+        {
+            stroke("<<");
+            line(0, i, 15, 15);            
+            stroke(">>");
+            line(30, i, 15, 15);
+            stroke("MM");
+            line(i, 0, 15, 15);
+            stroke("WW");
+            line(i, 30, 15, 15);
+        }
+        stroke("OO");
+        point(15,15);
+    }
+};
+
 
 class RectExample1 : public Engine
 {
@@ -470,6 +510,32 @@ class AnimationExample6 : public Engine
 };
 
 
+class AnimationExample7 : public Engine
+{
+
+    int y = 0;
+    int dy = 1;
+    void setup()
+    {
+        createCanvas(20,20);     
+    }
+
+    void draw()
+    {
+        clear();
+        line(0,0,20,y);
+        if (y == 20)
+        {
+            dy = -1;
+        }
+        else if (y == 0)
+        {
+            dy = 1;
+        }
+        y = y + dy;
+    }
+};
+
 class KeyPressedExample1 : public Engine
 {
     int x;    
@@ -555,6 +621,10 @@ class StrokeExample : public Engine
         stroke("🌲");
         point(1, 2); 
         horizontal_line(6, 2, 8);
+
+        stroke("★★");
+        point(1, 3); 
+        horizontal_line(7, 2, 8);
     }
 };
 
@@ -893,7 +963,11 @@ int main()
 
     // Basic Examples
     game.add(new HelloWorld(), "HelloWorld");
-    game.add(new LineExample(), "LineExample");
+    
+    game.add(new LineExample1(), "LineExample1");
+    game.add(new LineExample2(), "LineExample2");
+    game.add(new LineExample3(), "LineExample3");
+
     game.add(new PointExample(), "PointExample");
     game.add(new StrokeExample(), "StrokeExample");
     game.add(new RectExample1(), "RectExample1");
@@ -906,6 +980,7 @@ int main()
     game.add(new AnimationExample4(), "AnimationExample4");
     game.add(new AnimationExample5(), "AnimationExample5");
     game.add(new AnimationExample6(), "AnimationExample6");
+    game.add(new AnimationExample7(), "AnimationExample7");
 
     game.add(new KeyPressedExample1(), "KeyPressedExample1");
     game.add(new KeyPressedExample2(), "KeyPressedExample2");
@@ -920,7 +995,9 @@ int main()
 
     game.add(new MenuExample1(), "MenuExample1");
 
-    game.play();
+    // game.play();
+    
+    AnimationExample7().play();
 
     return 0;
 }

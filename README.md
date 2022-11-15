@@ -19,13 +19,8 @@ $ ./a.out
 ```
 
 ## Hello World
-```
-    0 1 2 3 4 5 6 7 8 9
-  ┌────────────────────┐
- 0│Hello World         │
- 1│                    │
-  └────────────────────┘
-```
+
+![helloworld](images/helloworld.png)
 
 ```c++
 #include "engine.h"
@@ -56,24 +51,10 @@ int main()
 
 ## Point
 
-```
-    0 1 2 3 4 5 6 7 8 9
-  ┌────────────────────┐
- 0│                    │
- 1│  ██                │
- 2│                    │
- 3│      ->            │
- 4│                    │
- 5│                    │
- 6│                    │
- 7│                    │
- 8│                    │
- 9│                    │
-  └────────────────────┘
-```
+![4 points](images/4points.png)
 
 ```c++
-class PointExample : public Engine
+class Points : public Engine
 {
     void setup()
     {
@@ -83,36 +64,21 @@ class PointExample : public Engine
     void draw()
     {
         point(1, 1);
-
-        stroke("->");
         point(3, 3);
+        point(5, 5);
+        point(7, 7);        
+
+        describe("Four points.");
     }
 };
 ```
 
 
-## Line
-
-
-```bash
-    0 1 2 3 4 5 6 7 8 9
-  ┌────────────────────┐
- 0│                    │
- 1│                    │
- 2│  ██  ██  ██        │
- 3│████████████████    │
- 4│  ██  ██  ██        │
- 5│████████████████    │
- 6│  ██  ██  ██        │
- 7│████████████████    │
- 8│  ██  ██  ██        │
- 9│  ██  ██  ██        │
-  └────────────────────┘
-  ```
-
+## Vertical/Horizontal Lines
+![grid](images/grid.png)
 
 ```c++
-class LineExample : public Engine
+class VerticalHorizontalLines : public Engine
 {
     void setup()
     {
@@ -134,23 +100,57 @@ class LineExample : public Engine
 };
 ```
 
+## Line
+
+![diagonals](images/diagonals.png)
+```c++
+class Diagonals : public Engine
+{
+    void setup()
+    {
+        createCanvas(10,10);
+    }
+
+    void draw()
+    {
+        line(0,0,9,9);
+        line(9,0,0,9);
+    }
+};
+```
+
+![rays](images/rays.png)
+
+```c++
+class Rays : public Engine
+{
+    void setup()
+    {
+        createCanvas(31,31);
+    }
+
+    void draw()
+    {
+        for (int i = 0 ; i <= 30; i = i + 5)
+        {
+            stroke("<<");
+            line(0, i, 15, 15);            
+            stroke(">>");
+            line(30, i, 15, 15);
+            stroke("MM");
+            line(i, 0, 15, 15);
+            stroke("WW");
+            line(i, 30, 15, 15);
+        }
+        stroke("OO");
+        point(15,15);
+    }
+};
+```
+
 ## Rect
-```
-    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9
-  ┌────────────────────────────────────────┐
- 0│████████                                │
- 1│██    ██                                │
- 2│██    ██                      ██████████│
- 3│████████      ████████        ██      ██│
- 4│              ██    ██        ██      ██│
- 5│              ██    ██        ██      ██│
- 6│              ████████        ██████████│
- 7│                                        │
- 8│                                        │
- 9│                                        │
-  └────────────────────────────────────────┘
-SCREEN READER: Three rectangules.
-```
+
+![rects](images/rects.png)
 
 ```c++
 class RectExample : public Engine
@@ -175,7 +175,10 @@ class RectExample : public Engine
 ```
 ## Stroke
 
-![stroke example](images/stroke-example.png)
+![stroke example](images/stroke.png)
+
+* A stroke symbol is a two character string, such as `"->"`.
+* A stroke symbol can be a unicode graphical symbol. Some are already two character wide, such as `"🌲"`. You can use a search engine like the [Unicode Table](https://unicode-table.com/en/) to find a symbol you want and copy/paste it into your code. Some are single character and you need to include two, such as `"★★"`.
 
 ```c++
 class StrokeExample : public Engine
@@ -196,28 +199,17 @@ class StrokeExample : public Engine
         stroke("🌲");
         point(1, 2); 
         horizontal_line(6, 2, 8);
+
+        stroke("★★");
+        point(1, 3); 
+        horizontal_line(7, 2, 8);        
     }
 };
 ```
 
 ## Background
 
-```bash
-    0 1 2 3 4 5 6 7 8 9
-  ┌────────────────────┐
- 0│xxxxxxxxxxxxxxxxxxxx│
- 1│xxxxxxxxxxxxxxxxxxxx│
- 2│xxxxxxxxxxxxxxxxxxxx│
- 3│xxxxxx██xxxxxxxxxxxx│
- 4│xxxxxxxxxxxxxxxxxxxx│
- 5│xxxxxxxxxx██xxxxxxxx│
- 6│xxxxxxxxxxxxxxxxxxxx│
- 7│xxxxxxxxxxxxxxxxxxxx│
- 8│xxxxxxxxxxxxxxxxxxxx│
- 9│xxxxxxxxxxxxxxxxxxxx│
-  └────────────────────┘
-SCREEN READER: Two points against a background filled by x's.
-```
+![background](images/background.png)
 
 ```c++
 class BackgroundExample : public Engine
@@ -389,6 +381,38 @@ class RandomFill : public Engine
 };
 ```
 
+## Example: Scanning Line
+
+![scan line](images/scanline.gif)
+
+
+```c++
+class ScanningLine : public Engine
+{
+
+    int y = 0;
+    int dy = 1;
+    void setup()
+    {
+        createCanvas(20,20);     
+    }
+
+    void draw()
+    {
+        clear();
+        line(0,0,20,y);
+        if (y == 20)
+        {
+            dy = -1;
+        }
+        else if (y == 0)
+        {
+            dy = 1;
+        }
+        y = y + dy;
+    }
+};
+```
 
 # User Input
 
