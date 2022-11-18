@@ -113,11 +113,11 @@ void Canvas::point(int x, int y)
 {
     // if (x >= 0 && x <  _width && y < _height && y >= 0)
     // {                            
-        point(x, y, _strokeSymbol);
+        point(x, y, _strokeSymbol, _strokeColor);
     // }
 }
 
-void Canvas::point(int x_, int y_, string symbol)
+void Canvas::point(int x_, int y_, string symbol, Color color)
 {
     int x = _xo + x_;
     int y = _yo + y_;
@@ -129,6 +129,7 @@ void Canvas::point(int x_, int y_, string symbol)
         //     buffer[y][x][i] = symbol[i];
         // }             
         buffer[y][x] = symbol;
+        color_map[y][x] = color;
     }
 }
 
@@ -144,24 +145,20 @@ void Canvas:: text(string word, int x_, int y_)
         if (y >= 0 && j >= 0 && y < MAX_HEIGHT && j < MAX_WIDTH)
         {
             buffer[y][j] = word.substr(i, 2);
+            color_map[y][j] = _strokeColor;
         }
-        // buffer[y][j][0] = word[i];
-        // buffer[y][j][1] = word[i+1];   
-        // buffer[y][j][2] = 0;
     }
     if (word.size() % 2 == 0)
     {
-        // buffer[y][j][2] = 0;
+
     }
     else 
     {
         if (y >= 0 && j >= 0 && y < MAX_HEIGHT && j < MAX_WIDTH)
         {
             buffer[y][j] = word.substr(word.size()-1,1) + " ";
+            color_map[y][j] = _strokeColor;
         }
-        // buffer[y][j][0] = word[word.size()-1];
-        // buffer[y][j][1] = ' ';
-        // buffer[y][j][2] = 0;
     }
 }
 
@@ -298,7 +295,11 @@ void Canvas::render()
         {                    
             if (buffer[i][j].size() > 0)
             {
-                cout << buffer[i][j];
+                Color c = color_map[i][j];
+                cout 
+                << "\033[38;2;" << +c.r << ";" << +c.g << ";" << +c.b << "m"   
+                 << buffer[i][j]
+                 << "\033[00m";
             } 
             else
             {
@@ -330,6 +331,8 @@ void Engine::pause()
 
 void Engine::play()
 {
+    cout << "\033[2J\033[1;1H";
+
     setup();
     if (!_isLooping)
     {

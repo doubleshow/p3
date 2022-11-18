@@ -536,6 +536,85 @@ class AnimationExample7 : public Engine
     }
 };
 
+class ColorExample1 : public Engine
+{ 
+    void setup()
+    {
+        createCanvas(10,10);
+    }
+
+    void draw()
+    {        
+        Color red(255,0,0);        
+        stroke(red);
+        point(1,1);
+        text("red", 1, 2);
+
+        Color green(0,255,0);
+        stroke(green);
+        point(1,3);
+        text("green", 1, 4);
+        
+        Color blue(0,0,255);
+        stroke(blue);
+        point(1,5);
+        text("blue", 1, 6);
+    }
+};
+
+class ColorExample2 : public Engine
+{ 
+    void setup()
+    {
+        createCanvas(16,8);
+    }
+
+    void draw()
+    {
+        Color yellow(255,255,0);
+        Color red(255,0,0);
+        Color green(0,255,0);
+
+        stroke(red);
+        rect(0,0,4,4);        
+
+        fill(yellow);
+        rect(5,0,4,4);
+
+        stroke(green);
+        fill(green);
+        rect(10,0,4,4);
+    }
+};
+
+class ColorExample3 : public Engine
+{ 
+    void setup()
+    {
+        createCanvas(20,7);     
+    }
+
+    void draw()
+    {
+        clear();
+        int s = 0;
+        for (int i = 0; i < 20; i++)
+        {
+            s = s + 10;
+            Color c(s, 0, 0);
+            stroke(Color(s,0,0));
+            point(i,1);
+            stroke(Color(0,s,0));
+            point(i,3);
+            stroke(Color(0,0,s));
+            point(i,5);
+        }
+        
+    }
+};
+
+
+
 class KeyPressedExample1 : public Engine
 {
     int x;    
@@ -982,6 +1061,10 @@ int main()
     game.add(new AnimationExample6(), "AnimationExample6");
     game.add(new AnimationExample7(), "AnimationExample7");
 
+    game.add(new ColorExample1(), "ColorExample1");
+    game.add(new ColorExample2(), "ColorExample2");
+    game.add(new ColorExample3(), "ColorExample3");
+
     game.add(new KeyPressedExample1(), "KeyPressedExample1");
     game.add(new KeyPressedExample2(), "KeyPressedExample2");
     game.add(new StrokeExample(), "StrokeExample");
@@ -995,9 +1078,11 @@ int main()
 
     game.add(new MenuExample1(), "MenuExample1");
 
-    // game.play();
+    game.play();
     
-    AnimationExample7().play();
+    // AnimationExample7().play();
+
+    // ColorExample1().play();
 
     return 0;
 }

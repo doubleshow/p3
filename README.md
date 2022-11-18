@@ -1,10 +1,17 @@
-# p3 - A simple game engine for the "Project 3"
+# p3 - A simple game engine
 
-Author:
+
+__Author:__
 
 Tom Yeh\
 Associate Professor\
 Department of Computer Science
+
+## Motivation
+
+* Support stduents in CSCI 1300 to build interactive games for the "Project 3"
+* Provide drawing and animation features similar to that of [p5.js](https://p5js.org/) that are achievable in a terminal environment. 
+* Enable students who want to go above and beyond with their games.
 
 ## Supported Environments
 VSCode on [coding.csel.io](https://coding.csel.io/)
@@ -223,6 +230,101 @@ class BackgroundExample : public Engine
     }
 };
 
+```
+
+# Color Examples
+
+## point and text in colors
+
+![primary colors](images/primarycolors.png)
+
+```c++
+class PrimaryColors : public Engine
+{ 
+    void setup()
+    {
+        createCanvas(10,10);
+    }
+
+    void draw()
+    {        
+        Color red(255,0,0);        
+        stroke(red);
+        point(1,1);
+        text("red", 1, 2);
+
+        Color green(0,255,0);
+        stroke(green);
+        point(1,3);
+        text("green", 1, 4);
+        
+        Color blue(0,0,255);
+        stroke(blue);
+        point(1,5);
+        text("blue", 1, 6);
+    }
+};
+```
+
+## rects in colors
+![color rects](images/colorrects.png)
+```c++
+class ColorRects : public Engine
+{ 
+    void setup()
+    {
+        createCanvas(16,8);
+    }
+
+    void draw()
+    {
+        Color yellow(255,255,0);
+        Color red(255,0,0);
+        Color green(0,255,0);
+
+        stroke(red);
+        rect(0,0,4,4);        
+
+        fill(yellow);
+        rect(5,0,4,4);
+
+        stroke(green);
+        fill(green);
+        rect(10,0,4,4);
+    }
+};
+```
+
+
+## Gradients
+
+![gradients](images/gradients.png)
+
+```c++
+class Gradients : public Engine
+{ 
+    void setup()
+    {
+        createCanvas(20,7);     
+    }
+
+    void draw()
+    {
+        int s = 0;
+        for (int i = 0; i < 20; i++)
+        {
+            s = s + 10;
+            Color c(s, 0, 0);
+            stroke(Color(s,0,0));
+            point(i,1);
+            stroke(Color(0,s,0));
+            point(i,3);
+            stroke(Color(0,0,s));
+            point(i,5);
+        }
+        
+    }
+};
 ```
 # Animation Examples
 
@@ -616,7 +718,34 @@ $ g++ engine.cpp run-game.cpp
 $ ./a.out
 ```
 
+## Hacker Quest
 
+In this game, the player takes on the role of a hacker who navigates a cyberspace to visit server rooms and hack the servers inside. It demonstrates how to use `MapGame` to implement several key game mechanics required by the Project 3, as follows. 
+
+1. __Start__: The player is shown the title of the game, prompted for a question, and greeted with a welcome message.
+
+    ![hacker start screen](images/hacker-start-screen.gif)
+
+2. __Menu__: The player presses `M` to bring up a different menu for each type of location (i.e., room vs non-room)
+
+    ![hacker menu](images/hacker-menu.gif)
+
+3. __Random Events__: As the player moves around the map, random events happen.
+
+    ![hacker events](images/hacker-events.gif)
+
+The implementation of the game uses the `MapGame` class. The `MapGame` class is a subclass of the `Map` class provided to you for the Project3. As such, it is almost identical to the `Map` class except that it uses the p3 game engine to draw the map and handle keyboard events. Moreover, the `MapGame` class is also a subclass of the `Engine` class. As such, it gives you all the interactive features to provide a better playing experience. If you plan to use the p3 engine for your Project 3, you can use `MapGame` as a substitute for `Map`. 
+
+Souce code: 
+* [hacker-game.cpp](hacker-game.cpp)
+* [MapGame.h](MapGame.h)
+* [MapGame.cpp](MapGame.cpp)
+
+Compile and run
+```
+$ g++ engine.cpp MapGame.cpp hacker-game.cpp
+$ ./a.out
+```
 
 # Advanced Examples
 
