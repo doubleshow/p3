@@ -324,7 +324,7 @@ void Engine::quit()
 
 void Engine::pause()
 {
-    cout << "Press [SPACE] to continue." << endl;
+    cout <<  "Press [SPACE] to continue." << endl;
     _pausedUntilSpaceIsPressed = true;
 }
 
